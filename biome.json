@@ -16,7 +16,9 @@
         "noDefaultExport": "off",
         "useFilenamingConvention": "off",
         "noImplicitBoolean": "off",
-        "useBlockStatements": "off"
+        "useBlockStatements": "off",
+        "useImportType": "off",
+        "noNonNullAssertion": "off"
       },
       "nursery": {
         "noUndeclaredDependencies": "off"

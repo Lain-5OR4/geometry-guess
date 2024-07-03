@@ -1,6 +1,9 @@
+/**
+ * Represents a point in a two-dimensional coordinate system.
+ */
 export interface Point {
-  x: number
-  y: number
+  x: number;
+  y: number;
 }
 
 /**
@@ -20,6 +23,12 @@ export const generateRandomPoints = (numPoints: number): Point[] => {
   return points
 }
 
+/**
+ * Sorts an array of points in clockwise order around their centroid.
+ *
+ * @param points - The array of points to be sorted.
+ * @returns The sorted array of points in clockwise order.
+ */
 export const sortPointsClockwise = (points: Point[]): Point[] => {
   const centroid = calulateCentroid(points)
   return points.sort((a, b) => {
@@ -29,6 +38,11 @@ export const sortPointsClockwise = (points: Point[]): Point[] => {
   })
 }
 
+/**
+ * Calculates the centroid of a polygon defined by an array of points.
+ * @param points - An array of points representing the polygon.
+ * @returns The centroid point of the polygon.
+ */
 export const calulateCentroid = (points: Point[]): Point => {
   let signedArea = 0
   let centroidX = 0
@@ -54,10 +68,17 @@ export const calulateCentroid = (points: Point[]): Point => {
   return { x: centroidX, y: centroidY } as Point
 }
 
+/**
+ * Draws a polygon on the canvas using the provided points.
+ *
+ * @param ctx - The canvas rendering context.
+ * @param points - An array of points representing the vertices of the polygon.
+ */
 export const drawPolygon = (ctx: CanvasRenderingContext2D, points: Point[]): void => {
   if (points.length < 3) return;
 
   ctx.beginPath()
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'
   ctx.moveTo(points[0].x, points[0].y)
   for (let i = 1; i < points.length; i++) {
     ctx.lineTo(points[i].x, points[i].y)
@@ -66,32 +87,14 @@ export const drawPolygon = (ctx: CanvasRenderingContext2D, points: Point[]): voi
   ctx.stroke()
 }
 
+/**
+ * Draws a centroid on a canvas.
+ * @param ctx - The canvas rendering context.
+ * @param centroid - The coordinates of the centroid.
+ */
 export const drawCentroid = (ctx: CanvasRenderingContext2D, centroid: Point) => {
   ctx.beginPath()
   ctx.arc(centroid.x, centroid.y, 5, 0, 2 * Math.PI)
   ctx.fillStyle = 'red'
   ctx.fill()
-}
-
-// create randome points 3 to 13
-const numPoints = Math.floor((Math.random() * 10) + 3)
-
-const points = generateRandomPoints(numPoints)
-
-const sortedPoints = sortPointsClockwise(points)
-
-console.log('頂点: ', sortedPoints)
-
-const centroid = calulateCentroid(sortedPoints)
-
-console.log('重心: ', centroid)
-
-window.onload = () => {
-  const canvas = document.getElementById('canvas') as HTMLCanvasElement
-  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
-
-  if (ctx) {
-    drawPolygon(ctx, sortedPoints)
-    drawCentroid(ctx, centroid)
-  }
 }
